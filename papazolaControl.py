@@ -16,7 +16,7 @@ try:
     db = mysql.connector.connect(
         host='localhost',
         user='root',
-    	#passwd='g3tgr33ny0k',
+    	#passwd='your_password',
         database='papazolaControl'
     )
     cursor = db.cursor()
