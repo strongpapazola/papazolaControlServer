@@ -1,7 +1,7 @@
 # papazolaControlServer
 you can control server service or firewall(iptables rule) and can reboot your server
 
-- Tested : ubuntu 18-04,16-04 !
+- Tested : ubuntu 18-04,16-04 xenial/bionic!
 
 - Step by step :
 1. create user 'infra' and path /home/infra (sudo permision active)
