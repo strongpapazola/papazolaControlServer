@@ -28,7 +28,7 @@ def remove():
 
  sy('rm -r /opt/papazolaControlServerApps')
  sy('rm -r %spapazolaControlServer' % (inp,))
- sy("mysql -u root -p%s -e 'drop database papazolaControl;'" % (pass_sql,))
+ sy("mysql -u root -p'%s' -e 'drop database papazolaControl;'" % (pass_sql,))
 
  import subprocess
  a = subprocess.Popen('ps aux | grep /opt/papazolaControlServerApps/', shell=True, stdout=subprocess.PIPE).stdout
