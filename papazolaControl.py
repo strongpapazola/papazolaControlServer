@@ -16,7 +16,7 @@ try:
     db = mysql.connector.connect(
         host='localhost',
         user='root',
-    	  passwd='your_password',
+ 	passwd='your_password',
         database='papazolaControl'
     )
     cursor = db.cursor()
@@ -79,22 +79,25 @@ def launch():
             system("iptables -D INPUT -p icmp -j DROP")
 
     # ssh
-    ssh_val = str(search_datatable('network_rule', 'name', 'ssh')[2])
-    ssh_exec = str(search_datatable('network_rule', 'name', 'ssh')[3])
+    ssh_val = str(search_datatable('network_rule', 'name', 'ssh-publickey')[2])
+    ssh_exec = str(search_datatable('network_rule', 'name', 'ssh-publickey')[3])
     if ssh_val == '2':
         if ssh_exec == '1':
             sql = "UPDATE network_rule SET execute_val=%s WHERE name=%s"
-            val = ('2', 'ssh')
+            val = ('2', 'ssh-publickey')
             update_row(sql, val)
-            system("iptables -A INPUT -p tcp --dport " +portssh+" --source "+master+" -j ACCEPT")
-            system("iptables -A INPUT -p tcp --dport "+portssh+" -j DROP")
+            system("sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/sshd_config")
+            system("sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config")
+#            system("iptables -A INPUT -p tcp --dport " +portssh+" --source "+master+" -j ACCEPT")
+#            system("iptables -A INPUT -p tcp --dport "+portssh+" -j DROP")
     elif ssh_val == '1':
         if ssh_exec == '1':
             sql = "UPDATE network_rule SET execute_val=%s WHERE name=%s"
-            val = ('2', 'ssh')
+            val = ('2', 'ssh-publickey')
             update_row(sql, val)
-            system("iptables -D INPUT -p tcp --dport " +portssh+" --source "+master+" -j ACCEPT")
-            system("iptables -D INPUT -p tcp --dport "+portssh+" -j DROP")
+            system("sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config")
+#            system("iptables -D INPUT -p tcp --dport " +portssh+" --source "+master+" -j ACCEPT")
+#            system("iptables -D INPUT -p tcp --dport "+portssh+" -j DROP")
 
     # Service
     # ssh
@@ -132,43 +135,7 @@ def launch():
             sql = "UPDATE services SET `execute`=%s,`information`=%s WHERE `name`=%s"
             val = ('2',str(status),'portsentry')
             update_row(sql, val)
-'''
-    # apache
-    apache_svc = str(search_datatable('services', 'name', 'apache')[2])
-    apache_x = str(search_datatable('services', 'name', 'apache')[3])
-    if apache_svc == '1':
-        if apache_x == '1':
-            system('service apache2 stop')
-            status = subprocess.Popen('service apache2 status | grep Active:', shell=True, stdout=subprocess.PIPE).stdout.read()
-            sql = "UPDATE services SET `execute`=%s,`information`=%s WHERE `name`=%s"
-            val = ('2',str(status),'apache')
-            update_row(sql, val)
-    if apache_svc == '2':
-        if apache_x == '1':
-            system('service apache2 start')
-            status = subprocess.Popen('service apache2 status | grep Active:', shell=True, stdout=subprocess.PIPE).stdout.read()
-            sql = "UPDATE services SET `execute`=%s,`information`=%s WHERE `name`=%s"
-            val = ('2',str(status),'apache')
-            update_row(sql, val)
 
-    # mysql
-    mysql_svc = str(search_datatable('services', 'name', 'mysql')[2])
-    mysql_x = str(search_datatable('services', 'name', 'mysql')[3])
-    if mysql_svc == '1':
-        if mysql_x == '1':
-            system('service mysql stop')
-            status = subprocess.Popen('service mysql status | grep Active:', shell=True, stdout=subprocess.PIPE).stdout.read()
-            sql = "UPDATE services SET `execute`=%s,`information`=%s WHERE `name`=%s"
-            val = ('2',str(status),'mysql')
-            update_row(sql, val)
-    if mysql_svc == '2':
-        if mysql_x == '1':
-            system('service mysql start')
-            status = subprocess.Popen('service mysql status | grep Active:', shell=True, stdout=subprocess.PIPE).stdout.read()
-            sql = "UPDATE services SET `execute`=%s,`information`=%s WHERE `name`=%s"
-            val = ('2',str(status),'mysql')
-            update_row(sql, val)
-'''
 # Start Action
 try:
     launch()

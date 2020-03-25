@@ -124,7 +124,7 @@ on /etc/rc.local
  '''
  print(a)
  input('[Enter]')
- sy('echo "watch --interval 60 python3 /opt/'+scapps+'/papazolaControl.py &> /dev/null &" > /opt/'+scapps+'/papazolaControl.sh')
+ sy('echo "watch --interval 10 python3 /opt/'+scapps+'/papazolaControl.py &> /dev/null &" > /opt/'+scapps+'/papazolaControl.sh')
  sy('chmod +x /opt/'+scapps+'/papazolaControl.sh')
  sy('nano /etc/rc.local')
  sy('chmod +x /etc/rc.local')

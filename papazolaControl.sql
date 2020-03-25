@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 14 Mar 2020 pada 18.55
+-- Waktu pembuatan: 25 Mar 2020 pada 14.53
 -- Versi server: 10.3.22-MariaDB-1
--- Versi PHP: 7.3.12-1
+-- Versi PHP: 7.3.15-3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -64,8 +64,8 @@ CREATE TABLE `network_rule` (
 --
 
 INSERT INTO `network_rule` (`id`, `name`, `name_val`, `execute_val`) VALUES
-(1, 'icmp', 2, 2),
-(2, 'ssh', 1, 2);
+(1, 'icmp', 1, 2),
+(2, 'ssh-publickey', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -86,8 +86,8 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `val`, `execute`, `information`) VALUES
-(1, 'ssh', 2, 2, 'b\'   Active: active (running) since Sat 2020-03-14 16:45:50 WIB; 23ms ago\\n\''),
-(4, 'portsentry', 1, 2, 'b\'   Active: inactive (dead)\\n\'');
+(1, 'ssh', 2, 2, 'b\'     Active: active (running) since Wed 2020-03-25 12:31:40 WIB; 2h 6min ago\\n\''),
+(4, 'portsentry', 2, 2, 'b\'     Active: active (running) since Wed 2020-03-25 12:31:45 WIB; 2h 6min ago\\n\'');
 
 -- --------------------------------------------------------
 
@@ -100,6 +100,13 @@ CREATE TABLE `session` (
   `username` varchar(32) NOT NULL,
   `role_id` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `session`
+--
+
+INSERT INTO `session` (`id`, `username`, `role_id`) VALUES
+(5, 'admin', 2);
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT untuk tabel `session`
 --
 ALTER TABLE `session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
