@@ -131,8 +131,8 @@ on /etc/rc.local
 
  print('Import Database "mysql -u root -p"')
  sy('sleep 1')
- sy("mysql -u root -p%s -e 'CREATE DATABASE papazolaControl;'" % (pass_sql,))
- sy('mysql -u root -p%s papazolaControl < /opt/%s/papazolaControl.sql' % (pass_sql,scapps,))
+ sy("mysql -u root -p'%s' -e 'CREATE DATABASE papazolaControl;'" % (pass_sql,))
+ sy("mysql -u root -p'%s' papazolaControl < /opt/%s/papazolaControl.sql" % (pass_sql,scapps,))
 
  import mysql.connector
  db = mysql.connector.connect(
